@@ -30,6 +30,10 @@ urlpatterns += [
 ]
 
 urlpatterns += [
+    path('chat/', include('chat.urls')),
+]
+
+urlpatterns += [
     path('', RedirectView.as_view(url='catalog/')),
 ]
 
