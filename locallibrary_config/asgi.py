@@ -7,6 +7,7 @@ For more information on this file, see
 https://docs.djangoproject.com/en/6.1/howto/deployment/asgi/
 """
 
+# locallibrary_config/asgi.py
 import os
 
 from channels.auth import AuthMiddlewareStack
@@ -29,5 +30,6 @@ application = ProtocolTypeRouter(
         ),
     }
 )
+
 
 
