@@ -18,9 +18,10 @@
     </form>
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const socketProtocol = location.protocol.includes('s') ? 'wss' : 'ws';
 
         const chatSocket = new WebSocket(
-            'ws://'
+            `${socketProtocol}://`
             + window.location.host
             + '/ws/chat/'
             + roomName
