@@ -9,8 +9,8 @@ def authorize_books(apps, schema_editor): # "author-ize" get it X-D
 
     # TODO add code here to create a new BookAuthor for each book
     for book in Book.objects.all():
-        authors = book.authors.all()
-        BookAuthor.objects.create(book=book, author=authors)
+        # for author in book.authors:
+        BookAuthor.objects.create(book=book, author=book.author)
 
 class Migration(migrations.Migration):
 
