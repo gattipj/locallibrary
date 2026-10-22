@@ -8,6 +8,9 @@ def authorize_books(apps, schema_editor): # "author-ize" get it X-D
     BookAuthor = apps.get_model("catalog", "BookAuthor")
 
     # TODO add code here to create a new BookAuthor for each book
+    for book in Book:
+        BookAuthor.book = book
+        BookAuthor.author = book.authors
 
 class Migration(migrations.Migration):
 
