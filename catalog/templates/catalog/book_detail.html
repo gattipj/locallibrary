@@ -4,8 +4,8 @@
   <h1>Title: {{ book.title }}</h1>
 
   <p><strong>Author(s):</strong>
-    {% for author in book.authors_set.all %}
-      <a href="{{ authors.author.get_absolute_url }}">{{ authors.author }}</a>
+    {% for author in book.authors.all %}
+      <a href="{{ author.get_absolute_url }}">{{ author }}</a>
     {% endfor %}
   </p>
   <p><strong>Summary:</strong> {{ book.summary }}</p>

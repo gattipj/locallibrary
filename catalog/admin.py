@@ -13,6 +13,7 @@ from .models import Author, Genre, Book, BookInstance, Language, BookAuthor
 admin.site.register(Genre)
 #admin.site.register(BookInstance)
 admin.site.register(Language)
+admin.site.register(BookAuthor)
 
 class BookInline(admin.TabularInline):
     model = Book
