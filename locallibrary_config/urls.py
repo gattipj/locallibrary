@@ -20,6 +20,7 @@ from django.urls import include
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
+from .api import api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,6 +36,10 @@ urlpatterns += [
 
 urlpatterns += [
     path('accounts/', include('allauth.urls')),
+]
+
+urlpatterns += [
+    path('api/', api.urls),
 ]
 
 urlpatterns += [
