@@ -34,6 +34,10 @@ urlpatterns += [
 ]
 
 urlpatterns += [
+    path('accounts/', include('allauth.urls')),
+]
+
+urlpatterns += [
     path('', RedirectView.as_view(url='catalog/')),
 ]
 
