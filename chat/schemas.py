@@ -1,11 +1,12 @@
 from ninja import ModelSchema
+from chat.models import Room, Message
 from ninja import Schema
-from chat.models import Room
+from datetime import timedelta
 from typing import Annotated
 
-from ninja import FilterLookup, FilterSchema
-
-from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from django.utils import timezone
+from ninja import FilterLookup, FilterSchema, Query
 
 class RoomIn(ModelSchema):
     class Meta:
@@ -18,14 +19,21 @@ class RoomOut(ModelSchema):
         model = Room
         fields = ["id", "name", "topic", "created_at"]
 
-class Conflict(Schema):
-    message: str
-    existing_id: int
 
 class RoomFilter(FilterSchema):
     search: Annotated[str | None, FilterLookup("name__icontains")] = None
     topic: Annotated[str | None, FilterLookup("topic__icontains")] = None
     recent: bool | None = None
+
+    def filter_recent(self, value: bool) -> Q:
+        week_ago = timezone.now() - timedelta(days=7)
+        return Q(created_at__gte=week_ago) if value else Q(created_at__lt=week_ago)
+
+
+class Conflict(Schema):
+    message: str
+    existing_id: int
+
 
 class MessageIn(ModelSchema):
     class Meta:

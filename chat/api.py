@@ -1,4 +1,3 @@
-# chat/api.py
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.shortcuts import get_object_or_404
@@ -9,8 +8,8 @@ from ninja.pagination import paginate
 from .models import Message, Room
 from .schemas import Conflict, MessageIn, MessageOut, RoomFilter, RoomIn, RoomOut
 
-router = Router(tags=["rooms"])
 
+router = Router(tags=["rooms"])
 
 @router.get("/", response=list[RoomOut], auth=None)
 @paginate
