@@ -172,24 +172,13 @@ class BookAuthorFormSetMixin:
 
 
     def form_valid(self, form):
-        # author_formset = BookAuthorFormSet(self.request.POST, instance=form.instance)
-        # if not author_formset.is_valid():
-        #     return self.form_invalid(form)
-        # self.object = form.save()
-        # author_formset.instance = self.object
-        # author_formset.save()
-        # return HttpResponseRedirect(self.get_success_url())
-        context = self.get_context_data()
-        author_formset = context['author_formset']
-
-        if author_formset.is_valid():
-            with transaction.atomic():
-                self.object = form.save()
-                author_formset.instance = self.object
-                author_formset.save()
-            return HttpResponseRedirect(self.get_success_url())
-        else:
-            return self.render_to_response(self.get_context_data(form=form))
+        author_formset = BookAuthorFormSet(self.request.POST, instance=form.instance)
+        if not author_formset.is_valid():
+            return self.form_invalid(form)
+        self.object = form.save()
+        author_formset.instance = self.object
+        author_formset.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 class BookCreate(PermissionRequiredMixin, BookAuthorFormSetMixin, CreateView):
     model = Book
