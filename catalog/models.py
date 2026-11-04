@@ -76,7 +76,7 @@ class Language(models.Model):
         ]
 
 class BookAuthor(models.Model):
-    book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)  # Foreign key to book
+    book = models.ForeignKey('Book', on_delete=models.CASCADE, null=True)  # Foreign key to book
     author = models.ForeignKey('Author', on_delete=models.RESTRICT, null=True)  # Foreign key to author
     author_order = models.IntegerField(default=0)
 
