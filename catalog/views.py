@@ -17,6 +17,9 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.forms import inlineformset_factory
 
+from django.db import transaction
+from django.http import HttpResponseRedirect
+
 # Create your views here.
 def index(request):
     """View function for home page of site."""
@@ -167,14 +170,26 @@ class BookAuthorFormSetMixin:
             context['author_formset'] = BookAuthorFormSet(instance=self.object)
         return context
 
+
     def form_valid(self, form):
-        author_formset = BookAuthorFormSet(self.request.POST, instance=form.instance)
-        if not author_formset.is_valid():
-            return self.form_invalid(form)
-        self.object = form.save()
-        author_formset.instance = self.object
-        author_formset.save()
-        return HttpResponseRedirect(self.get_success_url())
+        # author_formset = BookAuthorFormSet(self.request.POST, instance=form.instance)
+        # if not author_formset.is_valid():
+        #     return self.form_invalid(form)
+        # self.object = form.save()
+        # author_formset.instance = self.object
+        # author_formset.save()
+        # return HttpResponseRedirect(self.get_success_url())
+        context = self.get_context_data()
+        author_formset = context['author_formset']
+
+        if author_formset.is_valid():
+            with transaction.atomic():
+                self.object = form.save()
+                author_formset.instance = self.object
+                author_formset.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
 class BookCreate(PermissionRequiredMixin, BookAuthorFormSetMixin, CreateView):
     model = Book
